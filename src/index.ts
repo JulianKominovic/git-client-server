@@ -1,14 +1,26 @@
 import Fastify from "fastify";
-import { simpleGit } from "simple-git";
+import { handleGetBranch } from "./modules/branch/get";
+import { handleGetLog } from "./modules/log/get";
 
 const PORT = process.env.PORT ?? 3000;
-const fastify = Fastify({
+export const fastify = Fastify({
   logger: true,
 });
 
-fastify.get("/", async (request, reply) => {
-  return await simpleGit().branch();
-});
+fastify.register(
+  function (app, _, done) {
+    app.get("/", handleGetBranch);
+    done();
+  },
+  { prefix: "/branch" }
+);
+fastify.register(
+  function (app, _, done) {
+    app.get("/", handleGetLog);
+    done();
+  },
+  { prefix: "/log" }
+);
 
 /**
  * Run the server!
