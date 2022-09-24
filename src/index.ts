@@ -3,6 +3,7 @@ import { handleGetBranch } from "./modules/branch/get";
 import { handleGitLogTree } from "./modules/gitCommitTree/get";
 import { handleGetLog } from "./modules/log/get";
 import cors from "@fastify/cors";
+import { handleGetConfig } from "./modules/config/get";
 
 const PORT = process.env.PORT ?? 3000;
 export const fastify = Fastify({
@@ -31,6 +32,13 @@ fastify.register(
     done();
   },
   { prefix: "/git-log-tree" }
+);
+fastify.register(
+  function (app, _, done) {
+    app.get("/", handleGetConfig);
+    done();
+  },
+  { prefix: "/config" }
 );
 
 /**

@@ -8,7 +8,6 @@ export const handleGitLogTree = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  console.log(reply);
   let info = await new Promise((resolve) => {
     run(
       (ex: any) => {
