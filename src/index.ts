@@ -12,6 +12,7 @@ const PORT = process.env.PORT ?? 3000;
 export const fastify = Fastify({
   logger: true,
 });
+fastify.register(cors, {});
 
 fastify.register(cors);
 
