@@ -4,6 +4,9 @@ import { handleGitLogTree } from "./modules/gitCommitTree/get";
 import { handleGetLog } from "./modules/log/get";
 import cors from "@fastify/cors";
 import { handleGetConfig } from "./modules/config/get";
+import { handleCheckout } from "./modules/branch/checkout";
+import { handleStash } from "./modules/workspace/stash";
+import { handleGetCurrentBranch } from "./modules/branch/getCurrent";
 
 const PORT = process.env.PORT ?? 3000;
 export const fastify = Fastify({
@@ -15,6 +18,7 @@ fastify.register(cors);
 fastify.register(
   function (app, _, done) {
     app.get("/", handleGetBranch);
+    app.get("/current", handleGetCurrentBranch);
     done();
   },
   { prefix: "/branch" }
@@ -39,6 +43,14 @@ fastify.register(
     done();
   },
   { prefix: "/config" }
+);
+fastify.register(
+  function (app, _, done) {
+    app.get("/stash", handleStash);
+    app.get("/checkout", handleCheckout);
+    done();
+  },
+  { prefix: "/workspace" }
 );
 
 /**
